@@ -25,7 +25,7 @@ class Answer(models.Model):
 	voter = models.ManyToManyField(User, related_name='voter_answer')
 
 	def __str__(self):
-		return self.subject
+		return self.create_date
 
 
 class Comment(models.Model):

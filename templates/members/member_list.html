@@ -1,0 +1,135 @@
+{% extends 'members/basic.html' %}
+
+{% load static %}
+
+{% block content %}
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+            <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
+{% include "common/page_nav.html" %}
+            </div>
+            <div class="col s12">
+                <div class="container">
+                    <!-- users list start -->
+                    <section class="users-list-wrapper section">
+                        <div class="users-list-filter">
+                            <div class="card-panel">
+                                <div class="row">
+                                    <form>
+                                        <div class="col s12 m6 l3">
+                                            <label for="users-list-verified">Verified</label>
+                                            <div class="input-field">
+                                                <select class="form-control" id="users-list-verified">
+                                                    <option value="">Any</option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m6 l3">
+                                            <label for="users-list-role">Role</label>
+                                            <div class="input-field">
+                                                <select class="form-control" id="users-list-role">
+                                                    <option value="">Any</option>
+                                                    <option value="User">User</option>
+                                                    <option value="Staff">Staff</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m6 l3">
+                                            <label for="users-list-status">Status</label>
+                                            <div class="input-field">
+                                                <select class="form-control" id="users-list-status">
+                                                    <option value="">Any</option>
+                                                    <option value="Active">Active</option>
+                                                    <option value="Close">Close</option>
+                                                    <option value="Banned">Banned</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m6 l3 display-flex align-items-center show-btn">
+                                            <button type="submit" class="btn btn-block indigo waves-effect waves-light">Show</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="users-list-table">
+                            <div class="card">
+                                <div class="card-content">
+                                    <!-- datatable start -->
+                                    <div class="responsive-table">
+                                        <table id="users-list-datatable" class="table">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>id</th>
+                                                <th>username</th>
+                                                <th>name</th>
+                                                <th>last activity</th>
+                                                <th>verified</th>
+                                                <th>role</th>
+                                                <th>status</th>
+                                                <th>edit</th>
+                                                <th>view</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td>300</td>
+                                                <td><a href="page-users-view.html">dean3004</a>
+                                                </td>
+                                                <td>Dean Stanley</td>
+                                                <td>30/04/2019</td>
+                                                <td>No</td>
+                                                <td>Staff</td>
+                                                <td><span class="chip green lighten-5"><span class="green-text">Active</span></span></td>
+                                                <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
+                                                <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>303</td>
+                                                <td><a href="page-users-view.html">hillary1807</a>
+                                                </td>
+                                                <td>Hillary Rasmussen</td>
+                                                <td>18/07/2019</td>
+                                                <td>No</td>
+                                                <td>Staff</td>
+                                                <td><span class="chip red lighten-5"><span class="red-text">Banned</span></span></td>
+                                                <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
+                                                <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>319</td>
+                                                <td><a href="page-users-view.html">gray2702</a>
+                                                </td>
+                                                <td>Gray Valenzuela</td>
+                                                <td>27/02/2020</td>
+                                                <td>No</td>
+                                                <td>Staff</td>
+                                                <td><span class="chip orange lighten-5"><span class="orange-text">Close</span></span></td>
+                                                <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
+                                                <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- datatable ends -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- users list ends -->
+{% include "common/right_side_nav.html" %}
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Page Main-->
+{% endblock %}

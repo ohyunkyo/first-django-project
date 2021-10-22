@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pybo.apps.PyboConfig',
+    'partners.apps.PartnersConfig',
+    'members.apps.MembersConfig',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +147,7 @@ LOGIN_REDIRECT_URL = '/'
 
 # 로그아웃시 이동하는 URL
 LOGOUT_REDIRECT_URL = '/'
+
+# 파일이 저장될 경로
+MEDIA_ROOT = 'uploads/'
+MEDIA_URL = '/media/'

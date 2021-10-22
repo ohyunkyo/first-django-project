@@ -1,0 +1,178 @@
+{% extends 'members/basic.html' %}
+
+{% load static %}
+
+{% block content %}
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+            <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
+{% include "common/page_nav.html" %}
+            </div>
+            <div class="col s12">
+                <div class="container">
+                    <!-- users edit start -->
+                    <div class="section users-edit">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="row">
+                                    <div class="col s12" id="account">
+                                        <!-- users edit media object start -->
+                                        <div class="media display-flex align-items-center mb-2">
+                                            <div class="media-body">
+                                                <h5 class="media-heading mt-0">member_id</h5>
+                                            </div>
+                                        </div>
+                                        <!-- users edit media object ends -->
+                                        <!-- users edit account form start -->
+                                        <form id="accountForm">
+                                            <div class="row">
+                                                <div class="col s12 m6">
+                                                    <div class="row">
+                                                        <div class="col s12 input-field">
+                                                            <input id="username" name="username" type="text" class="validate" value="dean3004"
+                                                                   data-error=".errorTxt1">
+                                                            <label for="username">아이디</label>
+                                                            <small class="errorTxt1"></small>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <input id="name" name="name" type="text" class="validate" value="Dean Stanley"
+                                                                   data-error=".errorTxt2">
+                                                            <label for="name">비밀번호</label>
+                                                            <small class="errorTxt2"></small>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <select>
+                                                                <option>다이아</option>
+                                                                <option>플래티넘</option>
+                                                            </select>
+                                                            <label>상품</label>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <input id="datepicker" name="datepicker" type="text" class="birthdate-picker datepicker"
+                                                                   placeholder="Pick a birthday" data-error=".errorTxt4">
+                                                            <label for="datepicker">만료일</label>
+                                                            <small class="errorTxt4"></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m6">
+                                                    <div class="row">
+                                                        <div class="col s12 input-field">
+                                                            <input id="email" name="email" type="text" class="validate" value="deanstanley@gmail.com"
+                                                                   data-error=".errorTxt3">
+                                                            <label for="email">이름</label>
+                                                            <small class="errorTxt3"></small>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <select>
+                                                                <option>정상</option>
+                                                                <option>비정상</option>
+                                                            </select>
+                                                            <label>상태</label>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <select>
+                                                                <option>월</option>
+                                                                <option>화</option>
+                                                            </select>
+                                                            <label>문자 수신일</label>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <input id="sms_receive_time" name="sms_receive_time" type="number" class="validate" value=""
+                                                                   data-error=".errorTxt3">
+                                                            <label for="sms_receive_time">조합 문자 수신 시각</label>
+                                                            <small class="errorTxt3"></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m6">
+                                                    <table class="mt-1">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>문자 수신 여부</th>
+                                                            <th>선택</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>안내 문자 수신</td>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="checkbox" class="filled-in" checked />
+                                                                    <span></span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>조합 문자 수신</td>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="checkbox" class="filled-in"/>
+                                                                    <span></span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>결과 문자 수신</td>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="checkbox" class="filled-in" checked />
+                                                                    <span></span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col s12 m6">
+                                                    <h6 class="mb-3 mt-3"><i class="material-icons">error_outline</i> 기타 정보</h6>
+                                                    <table class="striped">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>가입 일시 : </td>
+                                                            <td>01/01/2019</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Latest Activity:</td>
+                                                            <td class="users-view-latest-activity">30/04/2019</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Verified:</td>
+                                                            <td class="users-view-verified">Yes</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Role:</td>
+                                                            <td class="users-view-role">Staff</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Status:</td>
+                                                            <td><span class=" users-view-status chip green lighten-5 green-text">Active</span></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col s12 display-flex justify-content-end mt-3">
+                                                    <button type="submit" class="btn indigo">
+                                                        Save changes</button>
+                                                    <button type="button" class="btn btn-light">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- users edit account form ends -->
+                                    </div>
+                                </div>
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- users edit ends -->
+{% include "common/right_side_nav.html" %}
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Page Main-->
+{% endblock %}

@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from pybo.views import base_views
+from members.views import member_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pybo/', include('pybo.urls')),
     path('common/', include('common.urls')),
+    path('members/', include('members.urls')),
     path('', base_views.index, name='index')
 ]
