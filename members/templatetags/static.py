@@ -8,7 +8,7 @@ class CustomStaticNode(StaticNode):
     # StaticNode를 상속 받아 StaticNode에서 만들어진 url에다가 해당 쿼리스트링을 넣는다
     # 배포시 뒤에 버전을 바꾸어 사용
     def url(self, context):
-        path = super().url(context) + '?v=1.6'
+        path = super().url(context) + '?v=1.1'
         return path
 
 

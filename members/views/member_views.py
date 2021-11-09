@@ -2,9 +2,11 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q, Count
+from django.utils import timezone
 
 from ..forms import MembersForm
 from ..models import Member
+from ..models import Product
 
 
 # 회원목록출력
@@ -36,13 +38,15 @@ def join(request):
         form = MembersForm(request.POST)
         if form.is_valid():
             member = form.save(commit=False)
-            member.author = request.user
+            member.join_at = timezone.now()
             member.save()
             return redirect('members:index')
     else:
         form = MembersForm()
 
-    context = {'form': form}
+    product = Product.objects.order_by('amount')
+    context = {'form': form, 'product': product}
+
     return render(request, 'members/member_form.html', context)
 
 
@@ -56,8 +60,12 @@ def modify(request, member_id):
         if form.is_valid():
             member = form.save(commit=False)
             member.save()
-            return redirect('members:detail', member_id=member.id)
+            return redirect('members:members_modify', member_id=member.id)
     else:
         form = MembersForm(instance=member)
-    context = {'form': form}
+
+    product_list = Product.objects.order_by('amount')
+    members_product = member.product_id
+    context = {'form': form, 'product_list': product_list, 'members_product': members_product}
+
     return render(request, 'members/member_form.html', context)

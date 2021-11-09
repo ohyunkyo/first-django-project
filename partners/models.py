@@ -64,7 +64,7 @@ class HotTime(models.Model):
 class Partner(models.Model):
 	account_id = models.CharField(max_length=20, unique=True)
 	account_pw = models.CharField(max_length=128)
-	agent_id = models.OneToOneField('self', on_delete=models.CASCADE, null=True)
+	agent = models.OneToOneField('self', on_delete=models.CASCADE, null=True)
 	name = models.CharField(max_length=30)
 	phone_number = models.CharField(max_length=11)
 	media = models.CharField(max_length=20)
@@ -93,9 +93,9 @@ class Partner(models.Model):
 
 # 클릭 로그
 class Click(models.Model):
-	landing_id = models.ForeignKey(Landing, on_delete=models.CASCADE)
+	landing = models.ForeignKey(Landing, on_delete=models.CASCADE)
 	ip_address = models.CharField(max_length=15)
-	partner_id = models.ForeignKey(Partner, on_delete=models.RESTRICT)
+	partner = models.ForeignKey(Partner, on_delete=models.RESTRICT)
 	created_at = models.DateTimeField()
 
 	class Meta:
@@ -113,9 +113,9 @@ class Commission(models.Model):
 	is_hide = models.BooleanField(default=False)
 	price = models.IntegerField()
 	is_bad = models.BooleanField(default=False)
-	partner_id = models.ForeignKey(Partner, on_delete=models.RESTRICT)
-	member_id = models.ForeignKey('members.Member', on_delete=models.CASCADE)
-	payment_id = models.ForeignKey('members.Payment', on_delete=models.CASCADE)
+	partner = models.ForeignKey(Partner, on_delete=models.RESTRICT)
+	member = models.ForeignKey('members.Member', on_delete=models.CASCADE)
+	payment = models.ForeignKey('members.Payment', on_delete=models.CASCADE)
 	created_at = models.DateTimeField()
 
 	class Meta:
@@ -128,7 +128,7 @@ class Commission(models.Model):
 
 # 아이피 중복 체크
 class IpOverlap(models.Model):
-	partner_id = models.ForeignKey(Partner, on_delete=models.CASCADE)
+	partner = models.ForeignKey(Partner, on_delete=models.CASCADE)
 	block_minutes = models.SmallIntegerField()
 
 	class Meta:
@@ -138,8 +138,8 @@ class IpOverlap(models.Model):
 
 # 수익금 신청
 class Profit(models.Model):
-	agent_id = models.ForeignKey(Partner, on_delete=models.CASCADE)
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+	agent = models.ForeignKey(Partner, on_delete=models.CASCADE)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 	amount = models.IntegerField()
 	status = models.CharField(max_length=10)
 	profit_bank_info = models.JSONField()
@@ -156,7 +156,7 @@ class Profit(models.Model):
 
 # 로그인 기록
 class PartnerLoginLogs(models.Model):
-	partner_id = models.ForeignKey(Partner, on_delete=models.CASCADE)
+	partner = models.ForeignKey(Partner, on_delete=models.CASCADE)
 	ip_address = models.CharField(max_length=15)
 	created_at = models.DateTimeField()
 

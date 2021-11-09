@@ -22,68 +22,94 @@
                                         <div class="media display-flex align-items-center mb-2">
                                             <div class="media-body">
                                                 <h5 class="media-heading mt-0">member_id</h5>
+                                                : {{ members_product }}
                                             </div>
                                         </div>
                                         <!-- users edit media object ends -->
                                         <!-- users edit account form start -->
-                                        <form id="accountForm">
+                                        <form method="post" id="accountForm">
+                                            {% csrf_token %}
+                                            {% if form.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                    {% for field in form %}
+                                                        {% if field.errors %}
+                                                            <strong>{{ field.label }}</strong>
+                                                            {{ field.errors }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
                                             <div class="row">
                                                 <div class="col s12 m6">
                                                     <div class="row">
                                                         <div class="col s12 input-field">
-                                                            <input id="username" name="username" type="text" class="validate" value="dean3004"
+                                                            <input id="account_id" name="account_id" type="text" class="validate" value="{{ form.account_id.value|default_if_none:'' }}"
                                                                    data-error=".errorTxt1">
-                                                            <label for="username">아이디</label>
+                                                            <label for="account_id">아이디</label>
                                                             <small class="errorTxt1"></small>
                                                         </div>
                                                         <div class="col s12 input-field">
-                                                            <input id="name" name="name" type="text" class="validate" value="Dean Stanley"
+                                                            <input id="account_pw" name="account_pw" type="text" class="validate" value="{{ form.account_pw.value|default_if_none:'' }}"
                                                                    data-error=".errorTxt2">
-                                                            <label for="name">비밀번호</label>
+                                                            <label for="account_pw">비밀번호</label>
                                                             <small class="errorTxt2"></small>
                                                         </div>
                                                         <div class="col s12 input-field">
-                                                            <select>
-                                                                <option>다이아</option>
-                                                                <option>플래티넘</option>
+                                                            <select id="product" name="product">
+                                                                <option value="">무료</option>
+                                                                {% for product in product_list %}
+                                                                    <option value="{{ product.id }}" {% if product.id == members_product %} selected {% endif %}>{{ product.name }}</option>
+                                                                {% endfor %}
                                                             </select>
                                                             <label>상품</label>
                                                         </div>
                                                         <div class="col s12 input-field">
-                                                            <input id="datepicker" name="datepicker" type="text" class="birthdate-picker datepicker"
-                                                                   placeholder="Pick a birthday" data-error=".errorTxt4">
-                                                            <label for="datepicker">만료일</label>
+                                                            <input id="expire_at" name="expire_at" type="text" class="birthdate-picker datepicker"
+                                                                   placeholder="만료일을 선택하세요" data-error=".errorTxt4" value="{{ form.expire_at.value|date:'Y-m-d'|default_if_none:'' }}">
+                                                            <label for="expire_at">만료일</label>
                                                             <small class="errorTxt4"></small>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <input id="consulting_status_fst" name="consulting_status_fst" type="text" class="validate" value="{{ form.consulting_status_fst.value|default_if_none:'waiting' }}"
+                                                                   data-error=".errorTxt2">
+                                                            <label for="consulting_status_fst">1차 상담상태</label>
+                                                            <small class="errorTxt2"></small>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col s12 m6">
                                                     <div class="row">
                                                         <div class="col s12 input-field">
-                                                            <input id="email" name="email" type="text" class="validate" value="deanstanley@gmail.com"
+                                                            <input id="name" name="name" type="text" class="validate" value="{{ form.name.value|default_if_none:'' }}"
                                                                    data-error=".errorTxt3">
-                                                            <label for="email">이름</label>
+                                                            <label for="name">이름</label>
                                                             <small class="errorTxt3"></small>
                                                         </div>
                                                         <div class="col s12 input-field">
-                                                            <select>
-                                                                <option>정상</option>
-                                                                <option>비정상</option>
+                                                            <select id="status" name="status">
+                                                                <option value="active">정상</option>
+                                                                <option value="inactive">비정상</option>
                                                             </select>
                                                             <label>상태</label>
                                                         </div>
                                                         <div class="col s12 input-field">
-                                                            <select>
-                                                                <option>월</option>
-                                                                <option>화</option>
+                                                            <select id="sms_receive_day" name="sms_receive_day">
+                                                                <option value="1">월</option>
+                                                                <option value="2">화</option>
                                                             </select>
                                                             <label>문자 수신일</label>
                                                         </div>
                                                         <div class="col s12 input-field">
-                                                            <input id="sms_receive_time" name="sms_receive_time" type="number" class="validate" value=""
+                                                            <input id="sms_receive_time" name="sms_receive_time" type="number" class="validate" value="{{ form.sms_receive_time.value|default_if_none:'' }}"
                                                                    data-error=".errorTxt3">
                                                             <label for="sms_receive_time">조합 문자 수신 시각</label>
                                                             <small class="errorTxt3"></small>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <input id="consulting_status_snd" name="consulting_status_snd" type="text" class="validate" value="{{ form.consulting_status_snd.value|default_if_none:'waiting' }}"
+                                                                   data-error=".errorTxt2">
+                                                            <label for="consulting_status_snd">2차 상담상태</label>
+                                                            <small class="errorTxt2"></small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -100,7 +126,7 @@
                                                             <td>안내 문자 수신</td>
                                                             <td>
                                                                 <label>
-                                                                    <input type="checkbox" class="filled-in" checked />
+                                                                    <input id="is_sms_info" name="is_sms_info" type="checkbox" class="filled-in" {% if form.is_sms_info.value %} checked{% endif %}/>
                                                                     <span></span>
                                                                 </label>
                                                             </td>
@@ -109,7 +135,7 @@
                                                             <td>조합 문자 수신</td>
                                                             <td>
                                                                 <label>
-                                                                    <input type="checkbox" class="filled-in"/>
+                                                                    <input id="is_sms_combination" name="is_sms_combination" type="checkbox" class="filled-in" {% if form.is_sms_combination.value %} checked{% endif %}/>
                                                                     <span></span>
                                                                 </label>
                                                             </td>
@@ -118,7 +144,7 @@
                                                             <td>결과 문자 수신</td>
                                                             <td>
                                                                 <label>
-                                                                    <input type="checkbox" class="filled-in" checked />
+                                                                    <input id="is_sms_result" name="is_sms_result" type="checkbox" class="filled-in" {% if form.is_sms_result.value %} checked{% endif %}/>
                                                                     <span></span>
                                                                 </label>
                                                             </td>
@@ -126,37 +152,53 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+{#                                                {{ request.resolver_match.url_name }}#}
+                                                {% if request.resolver_match.url_name == 'members_modify' %}
                                                 <div class="col s12 m6">
                                                     <h6 class="mb-3 mt-3"><i class="material-icons">error_outline</i> 기타 정보</h6>
                                                     <table class="striped">
                                                         <tbody>
                                                         <tr>
                                                             <td>가입 일시 : </td>
-                                                            <td>01/01/2019</td>
+                                                            <td>{{ form.join_at.value|date:'Y-m-d H:i:s'|default_if_none:'없음' }}</td>
+                                                            <input id="join_at" name="join_at" type="hidden" class="" value="{{ form.join_at.value|date:'Y-m-d H:i:s' }}">
                                                         </tr>
                                                         <tr>
-                                                            <td>Latest Activity:</td>
-                                                            <td class="users-view-latest-activity">30/04/2019</td>
+                                                            <td>가입 IP : </td>
+                                                            <td>{{ form.join_ip.value|default_if_none:'없음' }}</td>
+                                                            <input id="join_ip" name="join_ip" type="hidden" class="" value="{{ form.join_ip.value }}">
                                                         </tr>
                                                         <tr>
-                                                            <td>Verified:</td>
-                                                            <td class="users-view-verified">Yes</td>
+                                                            <td>가입 도메인 : </td>
+                                                            <td>{{ form.join_domain.value|default_if_none:'없음' }}</td>
+                                                            <input id="join_domain" name="join_domain" type="hidden" class="" value="{{ form.join_domain.value }}">
                                                         </tr>
                                                         <tr>
-                                                            <td>Role:</td>
-                                                            <td class="users-view-role">Staff</td>
+                                                            <td>가입 레퍼러 : </td>
+                                                            <td>{{ form.join_referer.value|default_if_none:'없음' }}</td>
+                                                            <input id="join_referer" name="join_referer" type="hidden" class="" value="{{ form.join_referer.value }}">
                                                         </tr>
                                                         <tr>
-                                                            <td>Status:</td>
-                                                            <td><span class=" users-view-status chip green lighten-5 green-text">Active</span></td>
+                                                            <td>가입 url : </td>
+                                                            <td>{{ form.join_intro_url.value|default_if_none:'없음' }}</td>
+                                                            <input id="join_intro_url" name="join_intro_url" type="hidden" class="" value="{{ form.join_intro_url.value }}">
+                                                        </tr>
+                                                        <tr>
+                                                            <td>가입 기기 : </td>
+                                                            <td>{{ form.join_device.value|default_if_none:'없음' }}</td>
+                                                            <input id="join_device" name="join_device" type="hidden" class="" value="{{ form.join_device.value }}">
+                                                        </tr>
+                                                        <tr>
+                                                            <td>인증여부 : </td>
+                                                            <td><span class="badge pink lighten-5 pink-text text-accent-2">미인증</span></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                            {% endif %}
                                                 <div class="col s12 display-flex justify-content-end mt-3">
-                                                    <button type="submit" class="btn indigo">
-                                                        Save changes</button>
-                                                    <button type="button" class="btn btn-light">Cancel</button>
+                                                    <button type="submit" class="btn indigo">저장</button>
+                                                    <button type="button" class="btn btn-light">취소</button>
                                                 </div>
                                             </div>
                                         </form>

@@ -27,7 +27,7 @@ class BankInfo(models.Model):
 	title = models.CharField(max_length=10, unique=True)
 	bank_name = models.CharField(max_length=10)
 	account_number = models.CharField(max_length=50)
-	owner = models.CharField(max_length=10)
+	owner = models.CharField(max_length=20)
 
 	class Meta:
 		verbose_name = '은행 정보'
@@ -43,23 +43,23 @@ class Member(models.Model):
 	account_pw = models.CharField(max_length=128)
 	name = models.CharField(max_length=30)
 	status = models.CharField(max_length=20, default='active')
-	expire_at = models.DateTimeField(null=True)
+	expire_at = models.DateField(null=True, blank=True)
 	sms_receive_time = models.SmallIntegerField(default=11)
 	sms_receive_day = models.SmallIntegerField(default=1)
 	is_sms_info = models.BooleanField(default=True)
 	is_sms_combination = models.BooleanField(default=True)
 	is_sms_result = models.BooleanField(default=True)
-	join_at = models.DateTimeField()
-	join_ip = models.CharField(max_length=15)
-	join_domain = models.URLField(null=True)
-	join_referer = models.URLField(null=True)
-	join_intro_url = models.URLField(null=True)
-	join_device = models.CharField(max_length=10, default='pc')
-	charge_admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, default=None, null=True)
+	join_at = models.DateTimeField(blank=True)
+	join_ip = models.CharField(max_length=15, default='', blank=True)
+	join_domain = models.URLField(default='', blank=True)
+	join_referer = models.URLField(default='', blank=True)
+	join_intro_url = models.URLField(default='', blank=True)
+	join_device = models.CharField(max_length=10, default='pc', blank=True)
 	consulting_status_fst = models.CharField(max_length=10, default='waiting')
 	consulting_status_snd = models.CharField(max_length=10, default='waiting')
 	is_auth = models.BooleanField(default=False)
-	product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, default=None, null=True)
+	charge_admin = models.ForeignKey(User, on_delete=models.SET_NULL, default=None, null=True, blank=True)
+	product = models.ForeignKey(Product, on_delete=models.SET_NULL, default=None, null=True, blank=True)
 
 	class Meta:
 		verbose_name = '회원'
@@ -77,12 +77,12 @@ class Member(models.Model):
 # 회원 메모
 class Memo(models.Model):
 	type = models.CharField(max_length=10)
-	member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+	member = models.ForeignKey(Member, on_delete=models.CASCADE)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 	memo = models.TextField()
-	created_at = models.DateTimeField()
-	updated_at = models.DateTimeField(null=True)
-	reserved_at = models.DateTimeField(null=True)
+	created_at = models.DateTimeField(blank=True)
+	updated_at = models.DateTimeField(null=True, blank=True)
+	reserved_at = models.DateTimeField(null=True, blank=True)
 
 	class Meta:
 		verbose_name = '메모'
@@ -95,13 +95,13 @@ class Memo(models.Model):
 # 회원 상담 내역
 class Counseling(models.Model):
 	type = models.CharField(max_length=10)
-	member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+	member = models.ForeignKey(Member, on_delete=models.CASCADE)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 	consulting_status_fst = models.CharField(max_length=10)
 	consulting_status_snd = models.CharField(max_length=10)
 	consulting_memo = models.TextField()
-	created_at = models.DateTimeField()
-	updated_at = models.DateTimeField(null=True)
+	created_at = models.DateTimeField(blank=True)
+	updated_at = models.DateTimeField(null=True, blank=True)
 
 	class Meta:
 		verbose_name = '상담내용'
@@ -116,10 +116,10 @@ class QnA(models.Model):
 	title = models.CharField(max_length=10)
 	contents = models.TextField()
 	answer = models.TextField()
-	member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-	created_at = models.DateTimeField()
-	answer_at = models.DateTimeField()
+	member = models.ForeignKey(Member, on_delete=models.CASCADE)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+	created_at = models.DateTimeField(blank=True)
+	answer_at = models.DateTimeField(null=True, blank=True)
 
 	class Meta:
 		verbose_name = '일대일 문의'
@@ -132,13 +132,13 @@ class QnA(models.Model):
 
 # 정기결제 정보
 class Subscription(models.Model):
-	member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-	product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, default=None, null=True)
+	member = models.ForeignKey(Member, on_delete=models.CASCADE)
+	product = models.ForeignKey(Product, on_delete=models.SET_NULL, default=None, null=True)
 	status = models.CharField(max_length=10)
 	start_at = models.DateTimeField()
 	payment_info = models.JSONField()
-	payment_fail_code = models.CharField(max_length=10)
-	payment_fail_msg = models.TextField()
+	payment_fail_code = models.CharField(max_length=10, default='', blank=True)
+	payment_fail_msg = models.TextField(default='', blank=True)
 
 	class Meta:
 		verbose_name = '정기결제'
@@ -150,21 +150,21 @@ class Subscription(models.Model):
 
 # 결제 정보
 class Payment(models.Model):
-	member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
+	member = models.ForeignKey(Member, on_delete=models.CASCADE)
 	pg_company = models.CharField(max_length=20)
 	pg_code = models.CharField(max_length=64, unique=True)
 	method = models.CharField(max_length=10)
-	product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, default=None, null=True)
+	product = models.ForeignKey(Product, on_delete=models.SET_NULL, default=None, null=True)
 	subscription_id = models.ForeignKey(Subscription, on_delete=models.SET_NULL, default=None, null=True)
 	type = models.CharField(max_length=10)
 	status = models.CharField(max_length=10)
 	amount = models.IntegerField()
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, default=None, related_name='payment_admin', null=True)
-	charge_admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, default=None, related_name='payment_charge_admin', null=True)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, default=None, related_name='payment_admin', null=True)
+	charge_admin = models.ForeignKey(User, on_delete=models.SET_NULL, default=None, related_name='payment_charge_admin', null=True)
 	phone_number = models.CharField(max_length=11)
 	device = models.CharField(max_length=10)
 	ip_address = models.CharField(max_length=15)
-	bank_info_id = models.ForeignKey(BankInfo, on_delete=models.SET_NULL, default=None, null=True)
+	bank_info = models.ForeignKey(BankInfo, on_delete=models.SET_NULL, default=None, null=True)
 	created_at = models.DateTimeField()
 	updated_at = models.DateTimeField()
 
@@ -179,8 +179,8 @@ class Payment(models.Model):
 
 # 회원 정지 로그
 class MemberPauseLog(models.Model):
-	member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+	member = models.ForeignKey(Member, on_delete=models.CASCADE)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 	reason = models.CharField(max_length=10)
 	remaining = models.SmallIntegerField()
 	created_at = models.DateTimeField()
@@ -195,8 +195,8 @@ class MemberPauseLog(models.Model):
 
 # 회원정보 변경 로그
 class MemberModifyLog(models.Model):
-	member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+	member = models.ForeignKey(Member, on_delete=models.CASCADE)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 	changed_data = models.JSONField()
 	updated_at = models.DateTimeField()
 
@@ -210,9 +210,9 @@ class MemberModifyLog(models.Model):
 
 # 배정로그
 class AssignmentLog(models.Model):
-	member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='assignment_charge_admin')
-	assignment_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='assignment_admin')
+	member = models.ForeignKey(Member, on_delete=models.CASCADE)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='assignment_charge_admin')
+	assignment_admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='assignment_admin')
 	that_status = models.JSONField()
 	created_at = models.DateTimeField()
 
@@ -231,7 +231,7 @@ class Notice(models.Model):
 	file_name = models.ImageField(upload_to='notice/')
 	type = models.CharField(max_length=10)
 	status = models.CharField(max_length=10)
-	admin_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 	created_at = models.DateTimeField()
 
 	class Meta:

@@ -109,9 +109,19 @@ $(function () {
 
    // initialize datepicker
    $('.datepicker').datepicker({
-      autoClose: true,
+      autoClose: false,
       format: 'yyyy-mm-dd',
       container: 'body',
+      i18n: {
+         months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+         monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+         weekdays: ["월요일","화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
+         weekdaysShort: ["월","화", "수", "목", "금", "토", "일"],
+         weekdaysAbbrev: ["월","화", "수", "목", "금", "토", "일"],
+         cancel:'취소',
+         clear:'초기화',
+         done:'확인'
+      },
       onDraw: function () {
          // materialize select dropdown not proper working on mobile and tablets so we make it browser default select
          $('.datepicker-container').find('.datepicker-select').addClass('browser-default');

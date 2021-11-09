@@ -9,5 +9,5 @@ urlpatterns = [
     path('', member_views.index, name='index'),
     path('<int:member_id>', member_views.detail, name='members_detail'),
     path('join/', member_views.join, name='members_join'),
-    path('modify/<int:question_id>/', member_views.modify, name='members_modify'),
+    path('modify/<int:member_id>/', member_views.modify, name='members_modify'),
 ]
