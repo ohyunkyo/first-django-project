@@ -1,0 +1,113 @@
+{% extends 'members/basic.html' %}
+
+{% load static %}
+
+{% block content %}
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+            <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
+{% include "common/page_nav.html" %}
+            </div>
+            <div class="col s12">
+                <div class="container">
+                    <!-- users list start -->
+                    <section class="users-list-wrapper section">
+                        <div class="users-list-filter">
+                            <div class="card-panel">
+                                <div class="row">
+                                    <form>
+                                        <div class="col s12 m6 l3">
+                                            <label for="users-list-verified">Verified</label>
+                                            <div class="input-field">
+                                                <select class="form-control" id="users-list-verified">
+                                                    <option value="">Any</option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m6 l3">
+                                            <label for="users-list-role">Role</label>
+                                            <div class="input-field">
+                                                <select class="form-control" id="users-list-role">
+                                                    <option value="">Any</option>
+                                                    <option value="User">User</option>
+                                                    <option value="Staff">Staff</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m6 l3">
+                                            <label for="users-list-status">Status</label>
+                                            <div class="input-field">
+                                                <select class="form-control" id="users-list-status">
+                                                    <option value="">Any</option>
+                                                    <option value="Active">Active</option>
+                                                    <option value="Close">Close</option>
+                                                    <option value="Banned">Banned</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m6 l3 display-flex align-items-center show-btn">
+                                            <button type="submit" class="btn btn-block indigo waves-effect waves-light">Show</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="card">
+                                <div class="card-content">
+                                    <table class="highlight">
+                                        <thead>
+                                        <tr>
+                                            <th>아이디</th>
+                                            <th>이름</th>
+                                            <th>상태</th>
+                                            <th>상품명</th>
+                                            <th>1차상담상태</th>
+                                            <th>2차상담상태</th>
+                                            <th>가입일</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if member_list %}
+                                            {% for member in member_list %}
+                                                <tr>
+                                                    <td><a href="{% url 'members:members_modify' member.id %}">{{ member.account_id }}</a></td>
+                                                    <td>{{ member.name }}</td>
+{#                                                    {% if member.status == 'active' %}#}
+{#                                                        <td><span class="chip green lighten-5"><span class="green-text">{{ member.status }}</span></span></td>#}
+{#                                                    {% elif member.status == 'inactive' %}#}
+{#                                                        <td><span class="chip red lighten-5"><span class="red-text">{{ member.status }}</span></span></td>#}
+{#                                                    {% else %}#}
+{#                                                        <td><span class="chip orange lighten-5"><span class="orange-text">{{ member.status }}</span></span></td>#}
+{#                                                    {% endif %}#}
+                                                    <td>
+                                                        {% if member.status == 'inactive' %}
+                                                        rr
+                                                        {% endif %}
+                                                        {{ member.status }}
+                                                    </td>
+                                                    <td>{{ member.product.name }}</td>
+                                                    <td>{{ member.consulting_status_fst }}</td>
+                                                    <td>{{ member.consulting_status_snd }}</td>
+                                                    <td>{{ member.join_at|date:'Y-m-d H:i:s' }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
+                    </section>
+                    <!-- users list ends -->
+{% include "common/right_side_nav.html" %}
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Page Main-->
+{% endblock %}

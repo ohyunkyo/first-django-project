@@ -18,14 +18,6 @@
                             <div class="card-content">
                                 <div class="row">
                                     <div class="col s12" id="account">
-                                        <!-- users edit media object start -->
-                                        <div class="media display-flex align-items-center mb-2">
-                                            <div class="media-body">
-                                                <h5 class="media-heading mt-0">member_id</h5>
-                                                : {{ members_product }}
-                                            </div>
-                                        </div>
-                                        <!-- users edit media object ends -->
                                         <!-- users edit account form start -->
                                         <form method="post" id="accountForm">
                                             {% csrf_token %}
@@ -40,19 +32,35 @@
                                                 </div>
                                             {% endif %}
                                             <div class="row">
-                                                <div class="col s12 m6">
+                                                <div class="col s12 m8">
                                                     <div class="row">
-                                                        <div class="col s12 input-field">
+                                                        <div class="col s10 m7 input-field">
                                                             <input id="account_id" name="account_id" type="text" class="validate" value="{{ form.account_id.value|default_if_none:'' }}"
                                                                    data-error=".errorTxt1">
                                                             <label for="account_id">아이디</label>
+                                                        </div>
+                                                        <div class="col s10 m3">
                                                             <small class="errorTxt1"></small>
                                                         </div>
+                                                        {% if request.resolver_match.url_name == 'members_join' %}
+                                                            <div class="col s12 input-field">
+                                                                <input id="account_pw" name="account_pw" type="text" class="validate" value="{{ form.account_pw.value|default_if_none:'' }}"
+                                                                       data-error=".errorTxt2">
+                                                                <label for="account_pw">비밀번호</label>
+                                                                <small class="errorTxt2"></small>
+                                                            </div>
+                                                        {% endif %}
                                                         <div class="col s12 input-field">
-                                                            <input id="account_pw" name="account_pw" type="text" class="validate" value="{{ form.account_pw.value|default_if_none:'' }}"
-                                                                   data-error=".errorTxt2">
-                                                            <label for="account_pw">비밀번호</label>
-                                                            <small class="errorTxt2"></small>
+                                                            <input id="name" name="name" type="text" class="validate" value="{{ form.name.value|default_if_none:'' }}"
+                                                                   data-error=".errorTxt3">
+                                                            <label for="name">이름</label>
+                                                            <small class="errorTxt3"></small>
+                                                        </div>
+                                                        <div class="col s12 input-field">
+                                                            <input id="phone_number" name="phone_number" type="text" class="validate" value="{{ form.phone_number.value|default_if_none:'' }}"
+                                                                   data-error=".errorTxt3">
+                                                            <label for="phone_number">전화번호</label>
+                                                            <small class="errorTxt3"></small>
                                                         </div>
                                                         <div class="col s12 input-field">
                                                             <select id="product" name="product">
@@ -69,22 +77,10 @@
                                                             <label for="expire_at">만료일</label>
                                                             <small class="errorTxt4"></small>
                                                         </div>
-                                                        <div class="col s12 input-field">
-                                                            <input id="consulting_status_fst" name="consulting_status_fst" type="text" class="validate" value="{{ form.consulting_status_fst.value|default_if_none:'waiting' }}"
-                                                                   data-error=".errorTxt2">
-                                                            <label for="consulting_status_fst">1차 상담상태</label>
-                                                            <small class="errorTxt2"></small>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col s12 m6">
+                                                <div class="col s12 m4">
                                                     <div class="row">
-                                                        <div class="col s12 input-field">
-                                                            <input id="name" name="name" type="text" class="validate" value="{{ form.name.value|default_if_none:'' }}"
-                                                                   data-error=".errorTxt3">
-                                                            <label for="name">이름</label>
-                                                            <small class="errorTxt3"></small>
-                                                        </div>
                                                         <div class="col s12 input-field">
                                                             <select id="status" name="status">
                                                                 <option value="active">정상</option>
@@ -106,6 +102,12 @@
                                                             <small class="errorTxt3"></small>
                                                         </div>
                                                         <div class="col s12 input-field">
+                                                            <input id="consulting_status_fst" name="consulting_status_fst" type="text" class="validate" value="{{ form.consulting_status_fst.value|default_if_none:'waiting' }}"
+                                                                   data-error=".errorTxt2">
+                                                            <label for="consulting_status_fst">1차 상담상태</label>
+                                                            <small class="errorTxt2"></small>
+                                                        </div>
+                                                        <div class="col s12 input-field">
                                                             <input id="consulting_status_snd" name="consulting_status_snd" type="text" class="validate" value="{{ form.consulting_status_snd.value|default_if_none:'waiting' }}"
                                                                    data-error=".errorTxt2">
                                                             <label for="consulting_status_snd">2차 상담상태</label>
@@ -113,6 +115,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col s12">
                                                 <div class="col s12 m6">
                                                     <table class="mt-1">
                                                         <thead>
@@ -152,7 +155,6 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-{#                                                {{ request.resolver_match.url_name }}#}
                                                 {% if request.resolver_match.url_name == 'members_modify' %}
                                                 <div class="col s12 m6">
                                                     <h6 class="mb-3 mt-3"><i class="material-icons">error_outline</i> 기타 정보</h6>
@@ -195,6 +197,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                    </div>
                                             {% endif %}
                                                 <div class="col s12 display-flex justify-content-end mt-3">
                                                     <button type="submit" class="btn indigo">저장</button>

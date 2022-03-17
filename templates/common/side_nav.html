@@ -5,16 +5,13 @@
             <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="index.html"><img class="hide-on-med-and-down" src="{% static '/images/logo/materialize-logo-color.png' %}" alt="materialize logo"/><img class="show-on-medium-and-down hide-on-med-and-up" src="{% static '/images/logo/materialize-logo.png' %}" alt="materialize logo"/><span class="logo-text hide-on-med-and-down">Materialize</span></a></h1>
         </div>
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
-            <li class="navigation-header"><a class="navigation-header-text">Pages </a><i class="navigation-header-icon material-icons">more_horiz</i>
             </li>
-            <li class="active bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">face</i><span class="menu-title" data-i18n="User">User</span><span class="badge badge pill purple float-right mr-10">3</span></a>
+            <li class="active bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">face</i><span class="menu-title" data-i18n="User">회원</span></a>
                 <div class="collapsible-body">
                     <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li class="active"><a class="active" href="page-users-list.html"><i class="material-icons">radio_button_unchecked</i><span data-i18n="List">List</span></a>
+                        <li class="active"><a class="active" href="{% url 'members:members_list'  %}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="List">회원목록</span></a>
                         </li>
-                        <li><a href="#"><i class="material-icons">radio_button_unchecked</i><span data-i18n="View">View</span></a>
-                        </li>
-                        <li><a href="#"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Edit">Edit</span></a>
+                        <li><a href="#"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Edit">회원정보</span></a>
                         </li>
                     </ul>
                 </div>

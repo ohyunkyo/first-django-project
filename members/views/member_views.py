@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q, Count
 from django.utils import timezone
+from argon2 import PasswordHasher
 
 from ..forms import MembersForm
 from ..models import Member
@@ -22,7 +23,7 @@ def index(request):
     last_page = paginator.num_pages
 
     context = {'member_list': page_obj, 'page': page, 'last_page': last_page}
-    return render(request, 'members/member_list.html', context)
+    return render(request, 'members/members_list.html', context)
 
 
 # 회원정보 상세 출력
@@ -38,16 +39,21 @@ def join(request):
         form = MembersForm(request.POST)
         if form.is_valid():
             member = form.save(commit=False)
+            member.account_pw = PasswordHasher().hash(form.cleaned_data['account_pw'])
             member.join_at = timezone.now()
+            member.join_domain = request.get_host()
+            member.join_referer = request.META.get("HTTP_REFERER", None)
+            member.join_intro_url = request.get_full_path()
+            member.join_ip = request.META.get("REMOTE_ADDR", None)
             member.save()
-            return redirect('members:index')
+            return redirect('members:members_list')
     else:
         form = MembersForm()
 
     product = Product.objects.order_by('amount')
     context = {'form': form, 'product': product}
 
-    return render(request, 'members/member_form.html', context)
+    return render(request, 'members/members_form.html', context)
 
 
 # 회원 수정
@@ -68,4 +74,4 @@ def modify(request, member_id):
     members_product = member.product_id
     context = {'form': form, 'product_list': product_list, 'members_product': members_product}
 
-    return render(request, 'members/member_form.html', context)
+    return render(request, 'members/members_form.html', context)

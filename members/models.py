@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.core import validators
+from .validators import custom_validator
 # Create your models here.
 
 
@@ -31,7 +32,7 @@ class BankInfo(models.Model):
 
 	class Meta:
 		verbose_name = '은행 정보'
-		verbose_name_plural = '은행 정보'
+		# verbose_name_plural = '은행 정보'
 		indexes = [
 			models.Index(fields=['bank_name', 'account_number', 'owner'], name='bank_info_search_common')
 		]
@@ -39,9 +40,11 @@ class BankInfo(models.Model):
 
 # 회원
 class Member(models.Model):
-	account_id = models.CharField(max_length=13, unique=True)
+	# account_id = models.CharField(max_length=13, unique=True, validators=[validators.RegexValidator('^[a-zA-Z0-9]*$', message='영문과 숫자만 입력 가능합니다')])
+	account_id = models.CharField(max_length=13, unique=True, validators=[custom_validator.validate_alpha_num])
 	account_pw = models.CharField(max_length=128)
 	name = models.CharField(max_length=30)
+	phone_number = models.CharField(max_length=11, validators=[custom_validator.validate_phone_number])
 	status = models.CharField(max_length=20, default='active')
 	expire_at = models.DateField(null=True, blank=True)
 	sms_receive_time = models.SmallIntegerField(default=11)
@@ -50,7 +53,7 @@ class Member(models.Model):
 	is_sms_combination = models.BooleanField(default=True)
 	is_sms_result = models.BooleanField(default=True)
 	join_at = models.DateTimeField(blank=True)
-	join_ip = models.CharField(max_length=15, default='', blank=True)
+	join_ip = models.GenericIPAddressField(null=True, blank=True)
 	join_domain = models.URLField(default='', blank=True)
 	join_referer = models.URLField(default='', blank=True)
 	join_intro_url = models.URLField(default='', blank=True)
